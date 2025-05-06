@@ -10,6 +10,8 @@ using RestaurantApp.ViewModels;
 using RestaurantApp;
  
 
+namespace RestaurantApp;
+
 public partial class App : Application
 {
     private readonly Microsoft.Extensions.DependencyInjection.ServiceProvider _serviceProvider;

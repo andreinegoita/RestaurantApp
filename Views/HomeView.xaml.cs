@@ -18,9 +18,9 @@ namespace RestaurantApp.Views
     /// <summary>
     /// Interaction logic for HomewView.xaml
     /// </summary>
-    public partial class HomewView : UserControl
+    public partial class HomeView : UserControl
     {
-        public HomewView()
+        public HomeView()
         {
             InitializeComponent();
         }
