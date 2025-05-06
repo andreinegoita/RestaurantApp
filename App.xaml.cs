@@ -10,6 +10,8 @@ using RestaurantApp.Services;
 using RestaurantApp.ViewModels;
 using RestaurantApp;
 using Restaurant.Data;
+using RestaurantApp.Data;
+using Microsoft.Extensions.Logging;
 
 
 namespace RestaurantApp;
@@ -34,6 +36,10 @@ public partial class App : Application
         services.AddDbContext<RestaurantDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
+        services.AddSingleton<IDataService, DataService>();
+        services.AddSingleton<INavigationService, NavigationService>(provider =>
+            new NavigationService(type => (ViewModelBase)provider.GetRequiredService(type)));
+
         services.AddTransient<HomeViewModel>();
         services.AddTransient<LoginViewModel>();
         services.AddTransient<RegisterViewModel>();
@@ -51,7 +57,7 @@ public partial class App : Application
         using (var scope = _serviceProvider.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<RestaurantDbContext>();
-            dbContext.Database.Migrate();
+            DbInitializer.Initialize(dbContext);
         }
 
 

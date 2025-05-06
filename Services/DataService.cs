@@ -259,6 +259,67 @@ namespace RestaurantApp.Services
                 }
             }
         }
+
+        public async Task UpdateProductImagesAsync(int productId, List<ProductImage> images)
+        {
+            using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var existingImages = await _dbContext.ProductImages
+                        .Where(pi => pi.ProductId == productId)
+                        .ToListAsync();
+
+                    _dbContext.ProductImages.RemoveRange(existingImages);
+
+                    foreach (var image in images)
+                    {
+                        image.ProductId = productId;
+                        _dbContext.ProductImages.Add(image);
+                    }
+
+                    await _dbContext.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+        }
+
+        public async Task UpdateProductAllergensAsync(int productId, List<int> allergenIds)
+        {
+            using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var existingAllergens = await _dbContext.ProductAllergens
+                        .Where(pa => pa.ProductId == productId)
+                        .ToListAsync();
+
+                    _dbContext.ProductAllergens.RemoveRange(existingAllergens);
+
+                    foreach (var allergenId in allergenIds)
+                    {
+                        _dbContext.ProductAllergens.Add(new ProductAllergen
+                        {
+                            ProductId = productId,
+                            AllergenId = allergenId
+                        });
+                    }
+
+                    await _dbContext.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+        }
         #endregion
 
         #region Menus

@@ -56,7 +56,7 @@ namespace Restaurant.Data
                 .HasOne(mp => mp.Menu)
                 .WithMany(m => m.MenuProducts)
                 .HasForeignKey(mp => mp.MenuId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<MenuProduct>()
                 .HasOne(mp => mp.Product)
