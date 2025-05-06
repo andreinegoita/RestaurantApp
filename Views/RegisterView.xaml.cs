@@ -1,28 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RestaurantApp.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace RestaurantApp.Views
 {
-    /// <summary>
-    /// Interaction logic for RegisterView.xaml
-    /// </summary>
     public partial class RegisterView : UserControl
     {
         public RegisterView()
         {
             InitializeComponent();
+            this.Loaded += RegisterView_Loaded;
+        }
+
+        private void RegisterView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is RegisterViewModel viewModel)
+            {
+                PasswordBox.PasswordChanged += (s, args) =>
+                {
+                    viewModel.Password = PasswordBox.Password;
+                };
+
+                ConfirmPasswordBox.PasswordChanged += (s, args) =>
+                {
+                    viewModel.ConfirmPassword = ConfirmPasswordBox.Password;
+                };
+
+                PasswordBox.Password = string.Empty;
+                ConfirmPasswordBox.Password = string.Empty;
+                viewModel.Password = string.Empty;
+                viewModel.ConfirmPassword = string.Empty;
+                viewModel.ErrorMessage = string.Empty;
+            }
         }
     }
 }

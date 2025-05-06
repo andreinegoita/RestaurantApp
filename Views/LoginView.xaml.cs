@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestaurantApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +16,28 @@ using System.Windows.Shapes;
 
 namespace RestaurantApp.Views
 {
-    /// <summary>
-    /// Interaction logic for LoginView.xaml
-    /// </summary>
     public partial class LoginView : UserControl
     {
         public LoginView()
         {
             InitializeComponent();
+            this.Loaded += LoginView_Loaded;
+        }
+
+        private void LoginView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is LoginViewModel viewModel)
+            {
+                PasswordBox.PasswordChanged += (s, args) =>
+                {
+                    viewModel.Password = PasswordBox.Password;
+                };
+
+                PasswordBox.Password = string.Empty;
+                viewModel.Password = string.Empty;
+                viewModel.Email = string.Empty;
+                viewModel.ErrorMessage = string.Empty;
+            }
         }
     }
 }

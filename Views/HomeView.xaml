@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Border Style="{StaticResource CardStyle}" 
+        <Border  
                  Width="350" 
                  VerticalAlignment="Center" 
                  HorizontalAlignment="Center">
