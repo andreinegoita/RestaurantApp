@@ -2,13 +2,15 @@
 using Microsoft.Extensions.DependencyInjection;
 using RestaurantApp.Services;
 using RestaurantApp.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Data;
 using System.Windows;
 using RestaurantApp.Services;
 using RestaurantApp.ViewModels;
 using RestaurantApp;
- 
+using Restaurant.Data;
+
 
 namespace RestaurantApp;
 
@@ -27,7 +29,10 @@ public partial class App : Application
     {
         services.AddSingleton<INavigationService>(provider =>
             new NavigationService(viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType)));
+        string connectionString = ConfigurationManager.ConnectionStrings["RestaurantDbConnection"].ConnectionString;
 
+        services.AddDbContext<RestaurantDbContext>(options =>
+                options.UseSqlServer(connectionString));
 
         services.AddTransient<HomeViewModel>();
         services.AddTransient<LoginViewModel>();
@@ -42,6 +47,13 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+
+        using (var scope = _serviceProvider.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<RestaurantDbContext>();
+            dbContext.Database.Migrate();
+        }
+
 
         var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
         mainWindow.DataContext = _serviceProvider.GetRequiredService<MainWindowViewModel>();
