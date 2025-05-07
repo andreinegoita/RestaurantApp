@@ -8,9 +8,11 @@
              xmlns:converters="clr-namespace:RestaurantApp.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
+
     <UserControl.Resources>
         <converters:DecimalToVisibilityConverter x:Key="DecimalToVisibilityConverter"/>
     </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
