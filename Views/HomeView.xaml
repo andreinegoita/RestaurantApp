@@ -5,41 +5,140 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RestaurantApp.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="650" d:DesignWidth="1000">
+
     <Grid>
-        <Border  
-                 Width="350" 
-                 VerticalAlignment="Center" 
-                 HorizontalAlignment="Center">
-            <StackPanel>
-                <TextBlock Text="Welcome" 
-                            FontSize="28" 
-                            FontWeight="SemiBold" 
-                            HorizontalAlignment="Center"
-                            Foreground="{StaticResource TextPrimaryBrush}"
-                            Margin="0,0,0,30"/>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#F5F5F5" Offset="0.0" />
+                <GradientStop Color="#E8E8E8" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
 
-                <Button Content="Login" 
-                         Command="{Binding LoginCommand}" 
-                         Style="{StaticResource ModernButton}"
-                         Margin="0,10,0,10" 
-                         Height="45" 
-                         Width="220"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-                <Button Content="Register" 
-                         Command="{Binding RegisterCommand}" 
-                         Style="{StaticResource ModernButton}"
-                         Margin="0,10,0,10" 
-                         Height="45" 
-                         Width="220"/>
-
-                <Button Content="Continue as Guest" 
-                         Command="{Binding GuestCommand}" 
-                         Style="{StaticResource SecondaryButton}"
-                         Margin="0,10,0,10" 
-                         Height="45" 
-                         Width="220"/>
+        <Border Grid.Row="0" 
+                Height="120" 
+                BorderThickness="0,0,0,2" 
+                BorderBrush="{StaticResource PrimaryBrush}">
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center">
+                <Ellipse Width="80" Height="80" Margin="0,0,20,0">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="/Assets/3903248.jpg" Stretch="Uniform"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="RESTAURANT APP" 
+                           FontSize="36" 
+                           FontWeight="Bold" 
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource TextPrimaryBrush}"/>
             </StackPanel>
         </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="400"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Margin="40">
+                <Grid>
+                    <Border CornerRadius="15" 
+                            ClipToBounds="True" 
+                            Effect="{StaticResource ShadowEffect}">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Assets/no-revisions-d1ngW7SNehM-unsplash.jpg" Stretch="UniformToFill"/>
+                        </Border.Background>
+                    </Border>
+
+                    <Border Background="#80000000" 
+                            CornerRadius="15" 
+                            VerticalAlignment="Bottom" 
+                            Height="100">
+                        <TextBlock Text="Experience The Ultimate Dining Experience" 
+                                   FontSize="28" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="White" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap" 
+                                   TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1" 
+                    Margin="0,40,40,40" 
+                    Background="White" 
+                    CornerRadius="15" 
+                    Effect="{StaticResource ShadowEffect}">
+                <StackPanel VerticalAlignment="Center" 
+                            HorizontalAlignment="Center" 
+                            Width="300">
+                    <TextBlock Text="Welcome" 
+                               FontSize="32" 
+                               FontWeight="Bold" 
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource PrimaryBrush}"
+                               Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Select how you want to continue" 
+                               FontSize="14" 
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Margin="0,0,0,30"/>
+
+                    <Button Content="Login" 
+                            Command="{Binding LoginCommand}" 
+                            Style="{StaticResource ModernButton}"
+                            Margin="0,10,0,15" 
+                            Height="50" 
+                            Width="250">
+                        <Button.Effect>
+                            <DropShadowEffect Color="#22000000" 
+                                              ShadowDepth="2" 
+                                              BlurRadius="4"/>
+                        </Button.Effect>
+                    </Button>
+
+                    <Button Content="Register" 
+                            Command="{Binding RegisterCommand}" 
+                            Style="{StaticResource ModernButton}"
+                            Margin="0,10,0,15" 
+                            Height="50" 
+                            Width="250">
+                        <Button.Effect>
+                            <DropShadowEffect Color="#22000000" 
+                                              ShadowDepth="2" 
+                                              BlurRadius="4"/>
+                        </Button.Effect>
+                    </Button>
+
+                    <Button Content="Continue as Guest" 
+                            Command="{Binding GuestCommand}" 
+                            Style="{StaticResource SecondaryButton}"
+                            Margin="0,10,0,10" 
+                            Height="50" 
+                            Width="250">
+                        <Button.Effect>
+                            <DropShadowEffect Color="#22000000" 
+                                              ShadowDepth="1" 
+                                              BlurRadius="3"/>
+                        </Button.Effect>
+                    </Button>
+
+                    <TextBlock Text="© 2025 Restaurant App" 
+                               FontSize="12" 
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Margin="0,30,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

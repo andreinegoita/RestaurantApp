@@ -5,42 +5,51 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RestaurantApp.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="900">
+             d:DesignHeight="800" d:DesignWidth="1024">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="500"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            <Grid.Background>
+                <ImageBrush ImageSource="/Assets/tasty-pizza-near-ingredients.jpg" Stretch="UniformToFill" Opacity="0.85"/>
+            </Grid.Background>
 
-            <Rectangle Grid.ColumnSpan="3" Grid.RowSpan="3" Fill="#30000000">
-                <Rectangle.OpacityMask>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black"/>
-                        <GradientStop Color="Transparent" Offset="1"/>
-                    </LinearGradientBrush>
-                </Rectangle.OpacityMask>
-            </Rectangle>
+            <Border Width="550" 
+                    Background="#FFFFFF" 
+                    CornerRadius="15" 
+                    Padding="40" 
+                    Margin="0,50,0,50"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="20" Color="#22000000" ShadowDepth="3" Opacity="0.5"/>
+                </Border.Effect>
 
-            <Border Grid.Column="1" Grid.Row="1" Background="White" CornerRadius="10" 
-                    Margin="0,40" Padding="30" BorderBrush="#DDDDDD" BorderThickness="1"
-                    Effect="{StaticResource ShadowEffect}">
                 <StackPanel>
-                    <Image Source="/Assets/Images/logo.png" Height="60" Margin="0,0,0,15"/>
+                    <Image Source="/Assets/3903248.jpg" Height="80" Margin="0,0,0,20"/>
 
-                    <TextBlock Text="Creează un cont nou" FontSize="24" FontWeight="Bold" 
-                               HorizontalAlignment="Center" Margin="0,0,0,25"/>
+                    <TextBlock Text="Creează un cont nou" 
+                               FontSize="28" 
+                               FontWeight="SemiBold" 
+                               Foreground="#23395d"
+                               HorizontalAlignment="Center" 
+                               Margin="0,0,0,15"/>
 
-                    <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
-                               TextWrapping="Wrap" Margin="0,0,0,15" 
-                               Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
+                    <TextBlock Text="Completați detaliile pentru a vă crea contul" 
+                               FontSize="16" 
+                               Foreground="#666666" 
+                               HorizontalAlignment="Center" 
+                               Margin="0,0,0,30"/>
+
+                    <Border Background="#FFEBEE" 
+                            CornerRadius="6" 
+                            Padding="15,12" 
+                            Margin="0,0,0,20"
+                            Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock Text="{Binding ErrorMessage}" 
+                                   Foreground="#D32F2F" 
+                                   TextWrapping="Wrap"
+                                   FontSize="14"/>
+                    </Border>
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -49,76 +58,202 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                            <TextBlock Text="Prenume" FontWeight="Medium" Margin="0,0,0,5"/>
-                            <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" 
-                                     Style="{StaticResource StandardTextBox}" 
-                                     Margin="0,0,0,15"/>
+                            <TextBlock Text="Prenume" 
+                                       FontWeight="Medium" 
+                                       Foreground="#23395d" 
+                                       Margin="0,0,0,8"/>
+                            <Border Background="#F5F7FA" 
+                                    CornerRadius="8" 
+                                    BorderBrush="#E1E5EA" 
+                                    BorderThickness="1" 
+                                    Margin="0,0,0,20">
+                                <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" 
+                                         Style="{StaticResource StandardTextBox}"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         FontSize="15"
+                                         />
+                            </Border>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                            <TextBlock Text="Nume" FontWeight="Medium" Margin="0,0,0,5"/>
-                            <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" 
-                                     Style="{StaticResource StandardTextBox}" 
-                                     Margin="0,0,0,15"/>
+                            <TextBlock Text="Nume" 
+                                       FontWeight="Medium" 
+                                       Foreground="#23395d" 
+                                       Margin="0,0,0,8"/>
+                            <Border Background="#F5F7FA" 
+                                    CornerRadius="8" 
+                                    BorderBrush="#E1E5EA" 
+                                    BorderThickness="1" 
+                                    Margin="0,0,0,20">
+                                <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" 
+                                         Style="{StaticResource StandardTextBox}"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         FontSize="15"/>
+                            </Border>
                         </StackPanel>
                     </Grid>
 
-                    <TextBlock Text="Email" FontWeight="Medium" Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" 
-                             Style="{StaticResource StandardTextBox}" 
-                             Margin="0,0,0,15"/>
+                    <TextBlock Text="Email" 
+                               FontWeight="Medium" 
+                               Foreground="#23395d" 
+                               Margin="0,0,0,8"/>
+                    <Border Background="#F5F7FA" 
+                            CornerRadius="8" 
+                            BorderBrush="#E1E5EA" 
+                            BorderThickness="1" 
+                            Margin="0,0,0,20">
+                        <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" 
+                                 Style="{StaticResource StandardTextBox}"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 FontSize="15"/>
+                    </Border>
 
-                    <TextBlock Text="Număr de telefon" FontWeight="Medium" Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" 
-                             Style="{StaticResource StandardTextBox}" 
-                             Margin="0,0,0,15"/>
+                    <TextBlock Text="Număr de telefon" 
+                               FontWeight="Medium" 
+                               Foreground="#23395d" 
+                               Margin="0,0,0,8"/>
+                    <Border Background="#F5F7FA" 
+                            CornerRadius="8" 
+                            BorderBrush="#E1E5EA" 
+                            BorderThickness="1" 
+                            Margin="0,0,0,20">
+                        <TextBox Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" 
+                                 Style="{StaticResource StandardTextBox}"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 FontSize="15"
+                                />
+                    </Border>
 
-                    <TextBlock Text="Adresă de livrare" FontWeight="Medium" Margin="0,0,0,5"/>
-                    <TextBox Text="{Binding DeliveryAddress, UpdateSourceTrigger=PropertyChanged}" 
-                             Style="{StaticResource StandardTextBox}" 
-                             TextWrapping="Wrap"
-                             Height="60"
-                             AcceptsReturn="True"
-                             VerticalScrollBarVisibility="Auto"
-                             Margin="0,0,0,15"/>
+                    <TextBlock Text="Adresă de livrare" 
+                               FontWeight="Medium" 
+                               Foreground="#23395d" 
+                               Margin="0,0,0,8"/>
+                    <Border Background="#F5F7FA" 
+                            CornerRadius="8" 
+                            BorderBrush="#E1E5EA" 
+                            BorderThickness="1" 
+                            Margin="0,0,0,20">
+                        <TextBox Text="{Binding DeliveryAddress, UpdateSourceTrigger=PropertyChanged}" 
+                                 Style="{StaticResource StandardTextBox}"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 FontSize="15"
+                                 TextWrapping="Wrap"
+                                 Height="70"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 />
+                    </Border>
 
-                    <TextBlock Text="Parolă" FontWeight="Medium" Margin="0,0,0,5"/>
-                    <PasswordBox x:Name="PasswordBox" 
-                                 Style="{StaticResource StandardPasswordBox}" 
-                                 Margin="0,0,0,15"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Confirmă parola" FontWeight="Medium" Margin="0,0,0,5"/>
-                    <PasswordBox x:Name="ConfirmPasswordBox" 
-                                 Style="{StaticResource StandardPasswordBox}" 
-                                 Margin="0,0,0,15"/>
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <TextBlock Text="Parolă" 
+                                       FontWeight="Medium" 
+                                       Foreground="#23395d" 
+                                       Margin="0,0,0,8"/>
+                            <Border Background="#F5F7FA" 
+                                    CornerRadius="8" 
+                                    BorderBrush="#E1E5EA" 
+                                    BorderThickness="1" 
+                                    Margin="0,0,0,10">
+                                <PasswordBox x:Name="PasswordBox" 
+                                             Style="{StaticResource StandardPasswordBox}"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             FontSize="15"
+                                             />
+                            </Border>
+                        </StackPanel>
 
-                    <TextBlock x:Name="PasswordStrengthText" 
-                               Foreground="Gray" 
-                               FontSize="12" 
-                               Margin="0,0,0,10">
-                        <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Text" Value="Parola trebuie să aibă minim 8 caractere, să conțină o literă mare, o literă mică, un număr și un caracter special"/>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="Confirmă parola" 
+                                       FontWeight="Medium" 
+                                       Foreground="#23395d" 
+                                       Margin="0,0,0,8"/>
+                            <Border Background="#F5F7FA" 
+                                    CornerRadius="8" 
+                                    BorderBrush="#E1E5EA" 
+                                    BorderThickness="1" 
+                                    Margin="0,0,0,10">
+                                <PasswordBox x:Name="ConfirmPasswordBox" 
+                                             Style="{StaticResource StandardPasswordBox}"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             FontSize="15"
+                                            />
+                            </Border>
+                        </StackPanel>
+                    </Grid>
 
-                    <Button Content="Înregistrează-te" Command="{Binding RegisterCommand}" 
-                            Style="{StaticResource PrimaryButton}" 
-                            Height="40" Margin="0,10,0,15"/>
+                    <Border Background="#E8F5E9" 
+                            CornerRadius="6" 
+                            Padding="15,10" 
+                            Margin="0,5,0,25">
+                        <StackPanel>
+                            <TextBlock Text="Cerințe pentru parolă:" 
+                                       FontWeight="Medium" 
+                                       Foreground="#2E7D32" 
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Foreground="#388E3C" 
+                                       FontSize="13" 
+                                       TextWrapping="Wrap">
+                                <Run Text="• Minim 8 caractere"/>
+                                <LineBreak/>
+                                <Run Text="• Cel puțin o literă mare (A-Z)"/>
+                                <LineBreak/>
+                                <Run Text="• Cel puțin o literă mică (a-z)"/>
+                                <LineBreak/>
+                                <Run Text="• Cel puțin un număr (0-9)"/>
+                                <LineBreak/>
+                                <Run Text="• Cel puțin un caracter special (!@#$%^&amp;*)"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
 
-                    <ProgressBar IsIndeterminate="True" Height="4" Margin="0,0,0,15" 
+                    <Button Content="Creează cont" 
+                            Command="{Binding RegisterCommand}" 
+                            Style="{StaticResource PrimaryButton}"
+                            Background="#FF5722"
+                            Foreground="White"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Height="50" 
+                            Margin="0,5,0,15"
+                            BorderThickness="0"
+                            >
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" Color="#22000000" ShadowDepth="1" Opacity="0.3"/>
+                        </Button.Effect>
+                    </Button>
+
+                    <ProgressBar IsIndeterminate="True" 
+                                 Height="4" 
+                                 Margin="0,0,0,20" 
+                                 Foreground="#FF5722"
                                  Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                    <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
-                        <Run Text="Ai deja un cont?"/>
-                        <Hyperlink Command="{Binding LoginCommand}">
-                            <Run Text="Autentifică-te"/>
+                    <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="15">
+                        <Run Text="Aveți deja un cont?" Foreground="#666666"/>
+                        <Hyperlink Command="{Binding LoginCommand}" TextDecorations="None" Foreground="#FF5722">
+                            <Run Text="Autentificare" FontWeight="SemiBold"/>
                         </Hyperlink>
                     </TextBlock>
 
-                    <Button Content="Înapoi la ecranul principal" Command="{Binding BackCommand}" 
-                            Style="{StaticResource TextButton}" Margin="0,15,0,0"/>
+                    <Button Content="Înapoi la ecranul principal" 
+                            Command="{Binding BackCommand}" 
+                            Style="{StaticResource TextButton}" 
+                            Foreground="#666666"
+                            FontSize="14"
+                            Margin="0,15,0,0"/>
                 </StackPanel>
             </Border>
         </Grid>
