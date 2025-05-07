@@ -24,6 +24,11 @@ namespace RestaurantApp
         }
 
         /// <summary>
+        /// The order currently selected for details view
+        /// </summary>
+        public static Order SelectedOrder { get; set; }
+
+        /// <summary>
         /// Event that is triggered when the current user changes
         /// </summary>
         public static event EventHandler UserChanged;
@@ -44,6 +49,7 @@ namespace RestaurantApp
         public static void Logout()
         {
             CurrentUser = null;
+            SelectedOrder = null;
         }
     }
 }

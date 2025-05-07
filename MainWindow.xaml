@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="RestaurantApp"
         WindowState="Maximized"
-        Width="900" Height="450">
+        Width="900" Height="450"
+        >
     <Grid>
         <ContentControl Content="{Binding CurrentView}"/>
     </Grid>

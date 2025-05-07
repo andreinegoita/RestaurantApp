@@ -14,6 +14,7 @@
     <None Remove="Assets\tasty-pizza-near-ingredients.jpg" />
   </ItemGroup>
 
+
   <ItemGroup>
     <Content Include="Assets\3903248.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

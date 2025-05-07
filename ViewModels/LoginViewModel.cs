@@ -79,8 +79,7 @@ namespace RestaurantApp.ViewModels
                     }
                     else 
                     {
-                        //_navigationService.NavigateTo<CustomerDashboardViewModel>();
-                        MessageBox.Show("Welcome to the Customer Dashboard");
+                        _navigationService.NavigateTo<CustomerDashboardViewModel>();
                     }
                 }
                 else
