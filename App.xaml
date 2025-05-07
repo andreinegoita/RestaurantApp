@@ -32,6 +32,9 @@
             <DataTemplate DataType="{x:Type viewmodels:CartViewModel}">
                 <views:CartView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:CustomerOrdersViewModel}">
+                <views:CustomerOrdersView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

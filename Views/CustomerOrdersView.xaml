@@ -1,0 +1,165 @@
+﻿<UserControl x:Class="RestaurantApp.Views.CustomerOrdersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RestaurantApp.Views"
+             xmlns:vm="clr-namespace:RestaurantApp.ViewModels"
+             xmlns:converters="clr-namespace:RestaurantApp.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:StatusToColorConverter x:Key="StatusToColorConverter"/>
+        <converters:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="15">
+            <TextBlock Text="Your Orders" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Refresh" Command="{Binding RefreshCommand}" Margin="0,0,10,0" Padding="10,5"/>
+                <Button Content="Back to Menu" Command="{Binding GoBackCommand}" Padding="10,5"/>
+            </StackPanel>
+        </StackPanel>
+
+        <TabControl Grid.Row="1" Margin="15,0">
+            <TabItem Header="Active Orders">
+                <Grid>
+                    <ListView ItemsSource="{Binding ActiveOrders}" 
+                              SelectedItem="{Binding SelectedOrder}"
+                              Margin="0,10"
+                              BorderThickness="1"
+                              BorderBrush="#DDDDDD"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#EEEEEE" BorderThickness="0,0,0,1" Padding="10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Width="150">
+                                            <TextBlock Text="{Binding OrderCode}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding OrderDate, StringFormat='{}{0:MMM dd, yyyy HH:mm}'}" Foreground="#666666"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="{Binding StatusName}" FontWeight="Bold" Foreground="#3377CC"/>
+                                            <TextBlock>
+                                                <Run Text="Estimated delivery: "/>
+                                                <Run Text="{Binding EstimatedDeliveryTime, StringFormat='{}{0:HH:mm}'}" FontWeight="Bold"/>
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding TotalAmount, StringFormat='${0:N2}'}" FontWeight="Bold"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                            <Button Content="Details" 
+                                                    Command="{Binding DataContext.ViewOrderDetailsCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                                                    CommandParameter="{Binding}"
+                                                    Margin="0,0,5,0" 
+                                                    Padding="10,5"/>
+                                            <Button Content="Cancel" 
+                                                    Command="{Binding DataContext.CancelOrderCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                                                    CommandParameter="{Binding}"
+                                                    Visibility="{Binding CanBeCancelled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                    Background="#FF6666"
+                                                    Foreground="White"
+                                                    Padding="10,5"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <TextBlock Text="You don't have any active orders."
+                               Foreground="#888888"
+                               FontStyle="Italic"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding ActiveOrders.Count, Converter={StaticResource ZeroToVisibilityConverter}}"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="All Orders">
+                <Grid>
+                    <ListView ItemsSource="{Binding Orders}" 
+                              SelectedItem="{Binding SelectedOrder}"
+                              Margin="0,10"
+                              BorderThickness="1"
+                              BorderBrush="#DDDDDD"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#EEEEEE" BorderThickness="0,0,0,1" Padding="10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Width="150">
+                                            <TextBlock Text="{Binding OrderCode}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding OrderDate, StringFormat='{}{0:MMM dd, yyyy HH:mm}'}" Foreground="#666666"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="{Binding StatusName}" FontWeight="Bold" 
+                                                       Foreground="{Binding StatusName, Converter={StaticResource StatusToColorConverter}}"/>
+                                            <TextBlock>
+                                                <Run Text="Estimated delivery: "/>
+                                                <Run Text="{Binding EstimatedDeliveryTime, StringFormat='{}{0:HH:mm}'}" FontWeight="Bold"/>
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding TotalAmount, StringFormat='${0:N2}'}" FontWeight="Bold"/>
+                                        </StackPanel>
+
+                                        <Button Grid.Column="2" 
+                                                Content="Details" 
+                                                Command="{Binding DataContext.ViewOrderDetailsCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                                                CommandParameter="{Binding}"
+                                                Padding="10,5"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <TextBlock Text="You haven't placed any orders yet."
+                               Foreground="#888888"
+                               FontStyle="Italic"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding Orders.Count, Converter={StaticResource ZeroToVisibilityConverter}}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <Grid Grid.Row="2" ZIndex="100" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Rectangle Fill="#88000000"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Loading orders..." Foreground="White" FontSize="18" HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" Width="200" Height="20" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Grid.Row="3" 
+                   Text="{Binding ErrorMessage}" 
+                   Foreground="Red" 
+                   TextWrapping="Wrap" 
+                   Margin="15,0,15,15"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

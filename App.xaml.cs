@@ -47,6 +47,7 @@ public partial class App : Application
         services.AddTransient<CustomerDashboardViewModel>();
         services.AddTransient<MenuViewModel>();
         services.AddTransient<CartViewModel>();
+        services.AddTransient<CustomerOrdersViewModel>();
         services.AddSingleton<MainWindowViewModel>();
 
 
