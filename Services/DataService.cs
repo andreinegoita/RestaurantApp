@@ -270,31 +270,22 @@ namespace RestaurantApp.Services
 
         public async Task UpdateProductImagesAsync(int productId, List<ProductImage> images)
         {
-            using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+            var existingImages = await _dbContext.ProductImages
+                .Where(pi => pi.ProductId == productId)
+                .ToListAsync();
+
+            _dbContext.ProductImages.RemoveRange(existingImages);
+
+            foreach (var image in images)
             {
-                try
+                _dbContext.ProductImages.Add(new ProductImage
                 {
-                    var existingImages = await _dbContext.ProductImages
-                        .Where(pi => pi.ProductId == productId)
-                        .ToListAsync();
-
-                    _dbContext.ProductImages.RemoveRange(existingImages);
-
-                    foreach (var image in images)
-                    {
-                        image.ProductId = productId;
-                        _dbContext.ProductImages.Add(image);
-                    }
-
-                    await _dbContext.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                }
-                catch
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
+                    ProductId = productId,
+                    ImageUrl = image.ImageUrl
+                });
             }
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateProductAllergensAsync(int productId, List<int> allergenIds)

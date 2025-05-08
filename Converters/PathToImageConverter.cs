@@ -17,7 +17,6 @@ namespace RestaurantApp.Converters
             {
                 string imagePath = value.ToString();
 
-                // Dacă calea începe cu "/", înseamnă că este o cale relativă față de directorul aplicației
                 if (imagePath.StartsWith("/"))
                 {
                     imagePath = imagePath.TrimStart('/');

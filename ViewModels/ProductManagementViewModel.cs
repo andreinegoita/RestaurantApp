@@ -351,6 +351,14 @@ namespace RestaurantApp.ViewModels
                     await SaveProductImagesAsync(NewProduct.ProductId);
                     await SaveProductAllergensAsync(NewProduct.ProductId);
                     await _dialogService.ShowMessageAsync("Success", "Product updated successfully.");
+                    SelectedProduct.Name = NewProduct.Name;
+                    SelectedProduct.Price = NewProduct.Price;
+                    SelectedProduct.CategoryId = NewProduct.CategoryId;
+                    SelectedProduct.Category = SelectedCategory; 
+                    SelectedProduct.TotalQuantity = NewProduct.TotalQuantity;
+                    SelectedProduct.PortionQuantity = NewProduct.PortionQuantity;
+                    SelectedProduct.Unit = NewProduct.Unit;
+                    OnPropertyChanged(nameof(SelectedProduct));
                 }
 
                 IsEditing = false;
@@ -359,8 +367,9 @@ namespace RestaurantApp.ViewModels
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error saving product: {ex.Message}");
-                await _dialogService.ShowMessageAsync("Error", $"Failed to save product: {ex.Message}");
+                var innerMessage = ex.InnerException != null ? ex.InnerException.Message : "No inner exception";
+                System.Diagnostics.Debug.WriteLine($"Error saving product: {ex.Message}. Inner exception: {innerMessage}");
+                await _dialogService.ShowMessageAsync("Error", $"Failed to save product: {ex.Message}\nInner exception: {innerMessage}");
             }
             finally
             {
@@ -376,6 +385,7 @@ namespace RestaurantApp.ViewModels
             foreach (var image in ProductImages)
             {
                 image.ProductId = productId;
+
             }
 
             await _dataService.UpdateProductImagesAsync(productId, ProductImages.ToList());
