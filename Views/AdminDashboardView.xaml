@@ -1,0 +1,213 @@
+﻿<UserControl x:Class="RestaurantApp.Views.AdminDashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#FF4CAF50" Padding="15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="Restaurant Admin Dashboard" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="{Binding CurrentUser.FirstName, StringFormat=' - Hello, {0}!'}" FontSize="18" Foreground="White" Margin="10,5,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Command="{Binding RefreshDataCommand}" Margin="5,0" Padding="10,5">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Refresh" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Command="{Binding LogoutCommand}" Margin="5,0" Padding="10,5">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Logout" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="#FFF5F5F5" BorderBrush="#FFE0E0E0" BorderThickness="0,0,1,0">
+                <StackPanel Margin="10">
+                    <TextBlock Text="MANAGEMENT" FontWeight="Bold" Margin="5,10"/>
+
+                    <Button Command="{Binding ManageCategoriesCommand}" Margin="0,5" Padding="10" HorizontalContentAlignment="Left">
+                        <TextBlock Text="Manage Categories"/>
+                    </Button>
+
+                    <Button Command="{Binding ManageProductsCommand}" Margin="0,5" Padding="10" HorizontalContentAlignment="Left">
+                        <TextBlock Text="Manage Products"/>
+                    </Button>
+
+                    <Button Command="{Binding ManageMenusCommand}" Margin="0,5" Padding="10" HorizontalContentAlignment="Left">
+                        <TextBlock Text="Manage Menus"/>
+                    </Button>
+
+                    <Button Command="{Binding ManageAllergensCommand}" Margin="0,5" Padding="10" HorizontalContentAlignment="Left">
+                        <TextBlock Text="Manage Allergens"/>
+                    </Button>
+
+                    <TextBlock Text="ORDERS" FontWeight="Bold" Margin="5,20,5,10"/>
+
+                    <Button Command="{Binding ViewAllOrdersCommand}" Margin="0,5" Padding="10" HorizontalContentAlignment="Left">
+                        <TextBlock Text="All Orders"/>
+                    </Button>
+
+                    <Button Command="{Binding ViewActiveOrdersCommand}" Margin="0,5" Padding="10" HorizontalContentAlignment="Left">
+                        <TextBlock Text="Active Orders"/>
+                    </Button>
+
+                    <TextBlock Text="INVENTORY" FontWeight="Bold" Margin="5,20,5,10"/>
+
+                    <Button Command="{Binding ViewLowStockCommand}" Margin="0,5" Padding="10" HorizontalContentAlignment="Left">
+                        <TextBlock Text="Low Stock Products"/>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="10">
+                <TabControl>
+                    <TabItem Header="Active Orders">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Active Orders" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                            <DataGrid Grid.Row="1" 
+                                      ItemsSource="{Binding ActiveOrders}" 
+                                      SelectedItem="{Binding SelectedOrder}"
+                                      AutoGenerateColumns="False" 
+                                      IsReadOnly="True"
+                                      SelectionMode="Single"
+                                      GridLinesVisibility="Horizontal"
+                                      AlternatingRowBackground="#FFF5F5F5">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" Width="70"/>
+                                    <DataGridTextColumn Header="Order Code" Binding="{Binding OrderCode}" Width="120"/>
+                                    <DataGridTextColumn Header="Date" Binding="{Binding OrderDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Width="150"/>
+                                    <DataGridTextColumn Header="Customer" Binding="{Binding User.FullName}" Width="150"/>
+                                    <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}" Width="100"/>
+                                    <DataGridTextColumn Header="Delivery Time" Binding="{Binding EstimatedDeliveryTime, StringFormat={}{0:HH:mm}}" Width="100"/>
+                                    <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:C}}" Width="100"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Border Grid.Row="2" BorderBrush="#FFE0E0E0" BorderThickness="0,1,0,0" Padding="0,10,0,0" Margin="0,10,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding SelectedOrder.User.FullName, StringFormat=Customer: {0}}" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding SelectedOrder.User.PhoneNumber, StringFormat=Phone: {0}}"/>
+                                        <TextBlock Text="{Binding SelectedOrder.User.DeliveryAddress, StringFormat=Address: {0}}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <Button Command="{Binding UpdateOrderStatusCommand}" CommandParameter="2" Margin="5" Padding="10,5" Background="#FFFFC107">
+                                            <TextBlock Text="Preparing"/>
+                                        </Button>
+                                        <Button Command="{Binding UpdateOrderStatusCommand}" CommandParameter="3" Margin="5" Padding="10,5" Background="#FF2196F3">
+                                            <TextBlock Text="Out for Delivery"/>
+                                        </Button>
+                                        <Button Command="{Binding UpdateOrderStatusCommand}" CommandParameter="4" Margin="5" Padding="10,5" Background="#FF4CAF50">
+                                            <TextBlock Text="Delivered"/>
+                                        </Button>
+                                        <Button Command="{Binding UpdateOrderStatusCommand}" CommandParameter="5" Margin="5" Padding="10,5" Background="#FFF44336">
+                                            <TextBlock Text="Cancel"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="All Orders">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Order History" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                            <DataGrid Grid.Row="1" 
+                                      ItemsSource="{Binding AllOrders}" 
+                                      AutoGenerateColumns="False" 
+                                      IsReadOnly="True"
+                                      GridLinesVisibility="Horizontal"
+                                      AlternatingRowBackground="#FFF5F5F5">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" Width="70"/>
+                                    <DataGridTextColumn Header="Order Code" Binding="{Binding OrderCode}" Width="120"/>
+                                    <DataGridTextColumn Header="Date" Binding="{Binding OrderDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Width="150"/>
+                                    <DataGridTextColumn Header="Customer" Binding="{Binding User.FullName}" Width="150"/>
+                                    <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}" Width="100"/>
+                                    <DataGridTextColumn Header="Delivery Time" Binding="{Binding EstimatedDeliveryTime, StringFormat={}{0:HH:mm}}" Width="100"/>
+                                    <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:C}}" Width="100"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Low Stock Products">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Low Stock Products" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                            <DataGrid Grid.Row="1"
+                                      ItemsSource="{Binding LowStockProducts}" 
+                                      AutoGenerateColumns="False" 
+                                      IsReadOnly="True"
+                                      GridLinesVisibility="Horizontal"
+                                      AlternatingRowBackground="#FFF5F5F5">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Product ID" Binding="{Binding ProductId}" Width="80"/>
+                                    <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="250"/>
+                                    <DataGridTextColumn Header="Available Quantity" Binding="{Binding TotalQuantity}" Width="150"/>
+                                    <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="80"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+                <Border Background="#80FFFFFF" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Loading..." FontSize="16"/>
+                        <ProgressBar IsIndeterminate="True" Width="200" Height="15" Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

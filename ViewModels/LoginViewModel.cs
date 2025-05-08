@@ -74,8 +74,7 @@ namespace RestaurantApp.ViewModels
 
                     if (user.RoleId == 1) 
                     {
-                        //_navigationService.NavigateTo<AdminDashboardViewModel>();
-                        MessageBox.Show("Welcome to the Admin Dashboard");
+                        _navigationService.NavigateTo<AdminDashboardViewModel>();
                     }
                     else 
                     {

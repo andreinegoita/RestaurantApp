@@ -14,7 +14,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header Section -->
         <Grid Grid.Row="0" Background="#F5F5F5" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -42,7 +41,6 @@
             </StackPanel>
         </Grid>
 
-        <!-- Main Content -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <Grid Margin="15,0">
                 <Grid.ColumnDefinitions>
@@ -50,7 +48,6 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Order Information -->
                 <Grid Grid.Column="0" Margin="0,0,10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -58,7 +55,6 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Order Status -->
                     <Border Grid.Row="0" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" Margin="0,0,0,15" CornerRadius="4">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -113,7 +109,6 @@
                         </Grid>
                     </Border>
 
-                    <!-- Customer Information -->
                     <Border Grid.Row="1" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" Margin="0,0,0,15" CornerRadius="4">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -154,7 +149,6 @@
                         </Grid>
                     </Border>
 
-                    <!-- Delivery Information -->
                     <Border Grid.Row="2" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" CornerRadius="4">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -182,7 +176,6 @@
                     </Border>
                 </Grid>
 
-                <!-- Order Items and Summary -->
                 <Grid Grid.Column="1" Margin="10,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -190,10 +183,8 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Order Items Header -->
                     <TextBlock Grid.Row="0" Text="Order Items" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
 
-                    <!-- Order Items List -->
                     <Border Grid.Row="1" BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="4">
                         <ListView ItemsSource="{Binding OrderItems}" BorderThickness="0">
                             <ListView.View>
@@ -231,7 +222,6 @@
                         </ListView>
                     </Border>
 
-                    <!-- Order Summary -->
                     <Border Grid.Row="2" BorderBrush="#DDDDDD" BorderThickness="1" Padding="15" Margin="0,15,0,0" CornerRadius="4">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -285,7 +275,6 @@
             </Grid>
         </ScrollViewer>
 
-        <!-- Loading and Error Messages -->
         <Grid Grid.Row="2" Margin="15,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

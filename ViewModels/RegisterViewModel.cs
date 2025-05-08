@@ -121,6 +121,7 @@ namespace RestaurantApp.ViewModels
                 }
 
                 string passwordHash = ComputeSha256Hash(Password);
+                int roleId = Email.ToLower().EndsWith("@restaurant.com") ? 1 : 2;
 
                 User newUser = new User
                 {
@@ -130,7 +131,7 @@ namespace RestaurantApp.ViewModels
                     PhoneNumber = PhoneNumber,
                     DeliveryAddress = DeliveryAddress,
                     PasswordHash = passwordHash,
-                    RoleId = 2 
+                    RoleId = roleId 
                 };
 
                 int userId = await _dataService.RegisterUserAsync(newUser);
@@ -141,7 +142,7 @@ namespace RestaurantApp.ViewModels
                     if (user != null)
                     {
                         AppSession.CurrentUser = user;
-                       // _navigationService.NavigateTo<CustomerDashboardViewModel>();
+                       _navigationService.NavigateTo<CustomerDashboardViewModel>();
                     }
                     else
                     {
