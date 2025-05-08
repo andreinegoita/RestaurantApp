@@ -37,6 +37,7 @@ public partial class App : Application
                 options.UseSqlServer(connectionString));
 
         services.AddSingleton<IDataService, DataService>();
+        services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<INavigationService, NavigationService>(provider =>
             new NavigationService(type => (ViewModelBase)provider.GetRequiredService(type)));
 
@@ -50,6 +51,7 @@ public partial class App : Application
         services.AddTransient<CustomerOrdersViewModel>();
         services.AddTransient<AdminDashboardViewModel>();
         services.AddTransient<CategoryManagementViewModel>();
+        services.AddTransient<ProductManagementViewModel>();
         services.AddSingleton<MainWindowViewModel>();
 
 

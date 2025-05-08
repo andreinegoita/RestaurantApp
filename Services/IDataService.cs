@@ -24,7 +24,7 @@ namespace RestaurantApp.Services
         Task<List<Product>> GetLowStockProductsAsync();
         Task UpdateProductImagesAsync(int productId, List<ProductImage> images);
         Task UpdateProductAllergensAsync(int productId, List<int> allergenIds);
-
+        Task<Product> GetProductWithDetailsAsync(int productId);
         Task<List<Menu>> GetMenusAsync();
         Task<Menu> GetMenuByIdAsync(int menuId);
         Task<int> AddMenuAsync(Menu menu, List<MenuProduct> menuProducts);

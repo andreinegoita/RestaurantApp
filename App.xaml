@@ -3,14 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:RestaurantApp"
              xmlns:viewmodels="clr-namespace:RestaurantApp.ViewModels"
-             xmlns:views="clr-namespace:RestaurantApp.Views">
+             xmlns:views="clr-namespace:RestaurantApp.Views"
+             xmlns:converters="clr-namespace:RestaurantApp.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Colors.xaml"/>
                 <ResourceDictionary Source="Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:StringCombinerConverter x:Key="QuantityUnitConverter"/>
             <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
                 <views:HomeView/>
             </DataTemplate>
@@ -43,6 +46,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:CategoryManagementViewModel}">
                 <views:CategoryManagementView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ProductManagementViewModel}">
+                <views:ProductManagementView/>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

@@ -148,7 +148,15 @@ namespace RestaurantApp.Services
                 }
             }
         }
-
+        public async Task<Product> GetProductWithDetailsAsync(int productId)
+        {
+            // Exemplu de implementare cu Entity Framework:
+            return await _dbContext.Products
+                .Include(p => p.ProductImages)
+                .Include(p => p.ProductAllergens)
+                    .ThenInclude(pa => pa.Allergen)
+                .FirstOrDefaultAsync(p => p.ProductId == productId);
+        }
         private async Task LoadProductRelatedDataAsync(Product product)
         {
             product.Category = await _dbContext.Categories.FindAsync(product.CategoryId);
