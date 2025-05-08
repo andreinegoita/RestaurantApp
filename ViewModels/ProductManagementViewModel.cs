@@ -33,6 +33,7 @@ namespace RestaurantApp.ViewModels
         private string _searchKeyword;
         private bool _includeAllergen;
         private bool _excludeAllergen;
+        private bool _isEditingOrNoSelection;
 
         public ObservableCollection<Product> Products
         {
@@ -72,6 +73,13 @@ namespace RestaurantApp.ViewModels
                 if (SetProperty(ref _selectedProduct, value) && value != null)
                 {
                     Task.Run(() => LoadProductDetailsAsync());
+                    UpdateIsEditingOrNoSelection();
+                    OnPropertyChanged(nameof(IsEditingOrNoSelection));
+                }
+                else if (SetProperty(ref _selectedProduct, value))
+                {
+                    UpdateIsEditingOrNoSelection();
+                    OnPropertyChanged(nameof(IsEditingOrNoSelection));
                 }
             }
         }
@@ -79,7 +87,13 @@ namespace RestaurantApp.ViewModels
 
         public bool IsEditingOrNoSelection
         {
-            get => IsEditing || SelectedProduct == null;
+            get => _isEditingOrNoSelection;
+            private set => SetProperty(ref _isEditingOrNoSelection, value);
+        }
+
+        private void UpdateIsEditingOrNoSelection()
+        {
+            IsEditingOrNoSelection = IsEditing || SelectedProduct == null;
         }
 
 
@@ -104,7 +118,14 @@ namespace RestaurantApp.ViewModels
         public bool IsEditing
         {
             get => _isEditing;
-            set => SetProperty(ref _isEditing, value);
+            set
+            {
+                if (SetProperty(ref _isEditing, value))
+                {
+                    UpdateIsEditingOrNoSelection();
+                    OnPropertyChanged(nameof(IsEditingOrNoSelection));
+                }
+            }
         }
 
         public bool IsAddingNew
@@ -147,7 +168,7 @@ namespace RestaurantApp.ViewModels
             _navigationService = navigationService;
             _dataService = dataService;
             _dialogService = dialogService;
-
+            IsEditingOrNoSelection = IsEditing || SelectedProduct == null;
             Products = new ObservableCollection<Product>();
             Categories = new ObservableCollection<Category>();
             Allergens = new ObservableCollection<Allergen>();
@@ -223,15 +244,12 @@ namespace RestaurantApp.ViewModels
             {
                 IsLoading = true;
 
-                // Încărcați produsul cu toate relațiile sale (imagini și alergeni)
                 var productWithDetails = await _dataService.GetProductWithDetailsAsync(SelectedProduct.ProductId);
 
                 if (productWithDetails != null)
                 {
-                    // Actualizați selecția curentă cu detaliile complete
                     SelectedProduct = productWithDetails;
 
-                    // Actualizați colecțiile de imagini și alergeni
                     ProductImages = new ObservableCollection<ProductImage>(
                         productWithDetails.ProductImages ?? new List<ProductImage>());
 
@@ -442,10 +460,8 @@ namespace RestaurantApp.ViewModels
 
                 string targetPath = Path.Combine(targetDirectory, fileName);
 
-                // Copy the file if it doesn't exist
                 if (File.Exists(targetPath))
                 {
-                    // Generate a unique filename
                     string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
                     string extension = Path.GetExtension(fileName);
                     string uniqueFileName = $"{fileNameWithoutExt}_{DateTime.Now.Ticks}{extension}";
@@ -455,7 +471,6 @@ namespace RestaurantApp.ViewModels
 
                 File.Copy(dialog.FileName, targetPath);
 
-                // Create relative path for storage
                 string relativePath = $"/Images/Products/{fileName}";
 
                 ProductImages.Add(new ProductImage
