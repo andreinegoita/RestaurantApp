@@ -41,6 +41,9 @@
             <DataTemplate DataType="{x:Type viewmodels:AdminDashboardViewModel}">
                 <views:AdminDashboardView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:CategoryManagementViewModel}">
+                <views:CategoryManagementView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

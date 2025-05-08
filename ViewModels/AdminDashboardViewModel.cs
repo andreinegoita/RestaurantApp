@@ -72,7 +72,7 @@ namespace RestaurantApp.ViewModels
 
             LogoutCommand = new RelayCommand(Logout);
             RefreshDataCommand = new AsyncRelayCommand(LoadDataAsync);
-            //ManageCategoriesCommand = new RelayCommand(() => _navigationService.NavigateTo<CategoryManagementViewModel>());
+            ManageCategoriesCommand = new RelayCommand(() => _navigationService.NavigateTo<CategoryManagementViewModel>());
             //ManageProductsCommand = new RelayCommand(() => _navigationService.NavigateTo<ProductManagementViewModel>());
             //ManageMenusCommand = new RelayCommand(() => _navigationService.NavigateTo<MenuManagementViewModel>());
             //ManageAllergensCommand = new RelayCommand(() => _navigationService.NavigateTo<AllergenManagementViewModel>());

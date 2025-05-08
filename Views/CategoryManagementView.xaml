@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="RestaurantApp.Views.CategoryManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RestaurantApp.Views"
+             xmlns:viewModels="clr-namespace:RestaurantApp.ViewModels"
+             xmlns:converters="clr-namespace:RestaurantApp.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanToStringConverter x:Key="BooleanToStringConverter" />
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <converters:BooleanToCommandMultiConverter x:Key="BooleanToCommandMultiConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.ColumnSpan="2" Margin="10" Orientation="Horizontal">
+            <Button Content="↩ Înapoi la Panou Administrator" 
+                    Command="{Binding BackToAdminDashboardCommand}"
+                    Padding="10,5" Margin="0,0,15,0" />
+            <TextBlock Text="Administrare Categorii" 
+                       FontSize="22" FontWeight="Bold" 
+                       VerticalAlignment="Center" />
+        </StackPanel>
+
+        <!-- Error Message -->
+        <TextBlock Grid.Row="0" Grid.Column="1" 
+                   Text="{Binding ErrorMessage}" 
+                   Foreground="Red" 
+                   TextWrapping="Wrap"
+                   Margin="10,10,10,0"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+
+        <!-- Category List -->
+        <Border Grid.Row="1" Grid.Column="0" 
+                BorderBrush="#CCCCCC" BorderThickness="1" 
+                Margin="10,5,5,10" 
+                Background="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Lista Categorii" 
+                           FontWeight="SemiBold" 
+                           Margin="10,5" />
+
+                <ListView Grid.Row="1" 
+                          ItemsSource="{Binding Categories}" 
+                          SelectedItem="{Binding SelectedCategory}"
+                          BorderThickness="0"
+                          Margin="0,5,0,0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1" 
+                                           Text="{Binding Description}" 
+                                           TextTrimming="CharacterEllipsis"
+                                           Margin="10,0,0,0"
+                                           Opacity="0.7" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <!-- Loading Overlay -->
+                <Grid Grid.Row="1" 
+                      Background="#80FFFFFF" 
+                      Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Se încarcă..." HorizontalAlignment="Center" Margin="0,0,0,10" />
+                        <ProgressBar IsIndeterminate="True" Width="150" Height="10" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Form -->
+        <Border Grid.Row="1" Grid.Column="1" 
+                BorderBrush="#CCCCCC" BorderThickness="1" 
+                Margin="5,5,10,10" 
+                Background="White">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding IsEditing, Converter={StaticResource BooleanToStringConverter}, ConverterParameter=Editare Categorie|Adăugare Categorie Nouă}" 
+                           FontWeight="SemiBold" FontSize="16" Margin="0,0,0,15" />
+
+                <StackPanel Grid.Row="1" Margin="0,0,0,10">
+                    <TextBlock Text="Nume Categorie *" Margin="0,0,0,5" />
+                    <TextBox Text="{Binding CategoryName, UpdateSourceTrigger=PropertyChanged}" Padding="5" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="0,0,0,15">
+                    <TextBlock Text="Descriere" Margin="0,0,0,5" />
+                    <TextBox Text="{Binding CategoryDescription}" 
+                             TextWrapping="Wrap" 
+                             AcceptsReturn="True" 
+                             Height="80" 
+                             VerticalScrollBarVisibility="Auto" 
+                             Padding="5" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,5,0,0">
+                    <Button Width="100" Padding="5" Margin="0,0,10,0"
+                            Background="#007ACC" Foreground="White">
+                        <Button.Content>
+                            <Binding Path="IsEditing" Converter="{StaticResource BooleanToStringConverter}" ConverterParameter="Actualizează|Adaugă" />
+                        </Button.Content>
+                        <Button.Command>
+                            <MultiBinding Converter="{StaticResource BooleanToCommandMultiConverter}" ConverterParameter="UpdateCategoryCommand|AddCategoryCommand">
+                                <Binding Path="IsEditing" />
+                                <Binding />
+                            </MultiBinding>
+                        </Button.Command>
+                    </Button>
+
+                    <Button Content="Anulează" 
+                            Command="{Binding ClearFormCommand}" 
+                            Width="100" Padding="5" />
+                </StackPanel>
+
+                <Button Grid.Row="4" Content="Șterge Categorie" 
+                        Command="{Binding DeleteCategoryCommand}" 
+                        Width="150" Padding="5"
+                        Margin="0,20,0,0"
+                        Background="#E81123" Foreground="White" 
+                        HorizontalAlignment="Left"
+                        Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </Border>
+
+        <!-- Footer -->
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" 
+                   Text="* Câmpuri obligatorii" 
+                   Margin="10,0,10,10" 
+                   Opacity="0.7" 
+                   FontStyle="Italic" />
+    </Grid>
+</UserControl>

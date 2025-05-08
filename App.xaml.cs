@@ -49,6 +49,7 @@ public partial class App : Application
         services.AddTransient<CartViewModel>();
         services.AddTransient<CustomerOrdersViewModel>();
         services.AddTransient<AdminDashboardViewModel>();
+        services.AddTransient<CategoryManagementViewModel>();
         services.AddSingleton<MainWindowViewModel>();
 
 
