@@ -95,9 +95,9 @@
                 </GroupBox>
 
                 <ListBox Grid.Row="3" ItemsSource="{Binding Products}" 
-                         SelectedItem="{Binding SelectedProduct}"
-                         BorderThickness="1" BorderBrush="#CCCCCC"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+         SelectedItem="{Binding SelectedProduct}"
+         BorderThickness="1" BorderBrush="#CCCCCC"
+         ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="5">
@@ -107,8 +107,8 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Border Width="50" Height="50" Background="#EEEEEE" CornerRadius="5">
-                                    <Image Source="{Binding ProductImages[0].ImageUrl, FallbackValue='/Images/default-product.png'}" 
-                                           Stretch="Uniform" Margin="5"/>
+                                    <Image Source="{Binding ProductImages[0].ImageUrl, Converter={StaticResource PathToImageConverter}, FallbackValue='/Images/default-product.png'}" 
+                           Stretch="Uniform" Margin="5"/>
                                 </Border>
 
                                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
@@ -232,13 +232,13 @@
                                                 </Grid.RowDefinitions>
 
                                                 <Border Width="100" Height="100" BorderBrush="#CCCCCC" BorderThickness="1">
-                                                    <Image Source="{Binding ImageUrl}" Stretch="Uniform" Margin="5"/>
+                                                    <Image Source="{Binding ImageUrl, Converter={StaticResource PathToImageConverter}}" Stretch="Uniform" Margin="5"/>
                                                 </Border>
 
                                                 <Button Grid.Row="1" Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                                        CommandParameter="{Binding}" Content="Remove" 
-                                                        Background="#F44336" Foreground="White" 
-                                                        Padding="5,2" BorderThickness="0" Margin="0,5,0,0"/>
+                        CommandParameter="{Binding}" Content="Remove" 
+                        Background="#F44336" Foreground="White" 
+                        Padding="5,2" BorderThickness="0" Margin="0,5,0,0"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -291,7 +291,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border Width="120" Height="120" BorderBrush="#EEEEEE" BorderThickness="1" Margin="0,0,10,10">
-                                        <Image Source="{Binding ImageUrl}" Stretch="Uniform" Margin="5"/>
+                                        <Image Source="{Binding ImageUrl, Converter={StaticResource PathToImageConverter}}" Stretch="Uniform" Margin="5"/>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -388,6 +388,7 @@
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converters:BooleanOrConverter x:Key="BooleanOrConverter"/>
+        <converters:PathToImageConverter x:Key="PathToImageConverter"/>
 
     </UserControl.Resources>
 </UserControl>
