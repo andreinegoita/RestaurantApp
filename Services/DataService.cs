@@ -449,7 +449,16 @@ namespace RestaurantApp.Services
 
         public async Task UpdateAllergenAsync(Allergen allergen)
         {
-            _dbContext.Entry(allergen).State = EntityState.Modified;
+            var existingAllergen = await _dbContext.Allergens.FindAsync(allergen.AllergenId);
+
+            if (existingAllergen == null)
+            {
+                throw new InvalidOperationException($"Allergen with ID {allergen.AllergenId} not found.");
+            }
+
+            existingAllergen.Name = allergen.Name;
+            existingAllergen.Description = allergen.Description;
+
             await _dbContext.SaveChangesAsync();
         }
 

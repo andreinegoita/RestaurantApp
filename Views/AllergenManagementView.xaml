@@ -25,7 +25,6 @@
         <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
-    <!-- Header -->
     <Grid Grid.Row="0" Margin="0,0,0,20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -48,7 +47,6 @@
                     Style="{StaticResource PrimaryButton}"/>
     </Grid>
 
-    <!-- Error Message -->
     <Border Grid.Row="1" 
                 Background="#FFEBEE" 
                 BorderBrush="#FFCDD2" 
@@ -61,7 +59,6 @@
                        TextWrapping="Wrap"/>
     </Border>
 
-    <!-- Main Content with Split View -->
     <Grid Grid.Row="2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -69,7 +66,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Allergen List -->
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -113,7 +109,6 @@
                 </ListView>
             </Border>
 
-            <!-- Loading Indicator -->
             <Grid Grid.Row="1" 
                       Background="#80FFFFFF" 
                       Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">

@@ -146,24 +146,40 @@ namespace RestaurantApp.ViewModels
 
                 if (IsAdding)
                 {
+                    // Adăugare alergen nou
                     int newId = await _dataService.AddAllergenAsync(NewAllergen);
                     NewAllergen.AllergenId = newId;
-                    Allergens.Add(NewAllergen);
+
+                    // Adăugăm o copie în colecția locală
+                    Allergens.Add(new Allergen
+                    {
+                        AllergenId = newId,
+                        Name = NewAllergen.Name,
+                        Description = NewAllergen.Description
+                    });
                 }
-                else if (IsEditing)
+                else if (IsEditing && SelectedAllergen != null)
                 {
+                    // Actualizare alergen existent
                     await _dataService.UpdateAllergenAsync(NewAllergen);
 
-                    int index = Allergens.ToList().FindIndex(a => a.AllergenId == NewAllergen.AllergenId);
-                    if (index >= 0)
+                    // Actualizăm datele în colecția locală
+                    if (SelectedAllergen != null)
                     {
-                        Allergens[index] = NewAllergen;
+                        SelectedAllergen.Name = NewAllergen.Name;
+                        SelectedAllergen.Description = NewAllergen.Description;
+
+                        // Forțăm actualizarea UI prin recrearea colecției
+                        var tempList = Allergens.ToList();
+                        Allergens = new ObservableCollection<Allergen>(tempList);
                     }
                 }
 
+                // Resetăm starea
                 IsAdding = false;
                 IsEditing = false;
                 NewAllergen = new Allergen();
+                SelectedAllergen = null;
             }
             catch (Exception ex)
             {
