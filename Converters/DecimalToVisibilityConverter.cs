@@ -26,4 +26,25 @@ namespace RestaurantApp.Converters
             throw new NotImplementedException();
         }
     }
+
+    public class DecimalToCurrencyConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is decimal decimalValue)
+            {
+                return decimalValue.ToString("C", CultureInfo.CurrentCulture);
+            }
+            return "0.00 RON";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string stringValue && decimal.TryParse(stringValue, NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal result))
+            {
+                return result;
+            }
+            return 0m;
+        }
+    }
 }
