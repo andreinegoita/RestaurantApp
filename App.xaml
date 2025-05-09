@@ -54,6 +54,9 @@
             <DataTemplate DataType="{x:Type viewmodels:MenuManagementViewModel}">
                 <views:MenuManagementView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:AllergenManagementViewModel}">
+                <views:AllergenManagementView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
