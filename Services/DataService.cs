@@ -383,6 +383,12 @@ namespace RestaurantApp.Services
             {
                 try
                 {
+                    var existingMenu = await _dbContext.Menus.FindAsync(menu.MenuId);
+                    if (existingMenu != null)
+                    {
+                        _dbContext.Entry(existingMenu).State = EntityState.Detached;
+                    }
+
                     _dbContext.Entry(menu).State = EntityState.Modified;
 
                     var existingMenuProducts = await _dbContext.MenuProducts
@@ -392,6 +398,7 @@ namespace RestaurantApp.Services
 
                     foreach (var menuProduct in menuProducts)
                     {
+                        menuProduct.MenuId = menu.MenuId; 
                         _dbContext.MenuProducts.Add(menuProduct);
                     }
 
