@@ -125,6 +125,14 @@
                                  Padding="5" 
                                  Margin="0,0,0,10"/>
 
+                        <TextBlock Text="Descriere:" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding MenuDescription, UpdateSourceTrigger=PropertyChanged}" 
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 Height="60"
+                                 Padding="5" 
+                                 Margin="0,0,0,10"/>
+
                         <TextBlock Text="Categorie:" Margin="0,0,0,5"/>
                         <ComboBox ItemsSource="{Binding Categories}" 
                                   SelectedItem="{Binding SelectedCategory}" 

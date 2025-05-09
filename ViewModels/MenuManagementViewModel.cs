@@ -66,6 +66,7 @@ namespace RestaurantApp.ViewModels
                     {
                         MenuId = value.MenuId,
                         Name = value.Name,
+                        Description = value.Description,
                         CategoryId = value.CategoryId,
                         Category = value.Category
                     };
@@ -83,7 +84,18 @@ namespace RestaurantApp.ViewModels
                 }
             }
         }
-
+        public string MenuDescription
+        {
+            get => EditingMenu?.Description;
+            set
+            {
+                if (EditingMenu != null)
+                {
+                    EditingMenu.Description = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public Menu EditingMenu
         {
             get => _editingMenu;
@@ -198,7 +210,11 @@ namespace RestaurantApp.ViewModels
 
         private void StartAddNewMenu()
         {
-            EditingMenu = new Menu();
+            EditingMenu = new Menu
+            {
+                Description = ""
+            };
+
             SelectedMenuProducts = new ObservableCollection<MenuProduct>();
             IsAddingNew = true;
             IsEditing = true;
@@ -236,6 +252,7 @@ namespace RestaurantApp.ViewModels
                 {
                     MenuId = SelectedMenu.MenuId,
                     Name = SelectedMenu.Name,
+                    Description = SelectedMenu.Description,
                     CategoryId = SelectedMenu.CategoryId,
                     Category = SelectedMenu.Category
                 };
@@ -251,7 +268,10 @@ namespace RestaurantApp.ViewModels
             }
             else
             {
-                EditingMenu = new Menu();
+                EditingMenu = new Menu
+                {
+                    Description = ""
+                };
                 SelectedMenuProducts = new ObservableCollection<MenuProduct>();
             }
 
@@ -287,7 +307,15 @@ namespace RestaurantApp.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Eroare la salvarea meniului: {ex.Message}";
+                var fullErrorMessage = ex.Message;
+                var innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    fullErrorMessage += " -> " + innerException.Message;
+                    innerException = innerException.InnerException;
+                }
+
+                ErrorMessage = $"Eroare la salvarea meniului: {fullErrorMessage}";
             }
             finally
             {
