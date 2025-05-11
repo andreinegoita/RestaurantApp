@@ -146,11 +146,9 @@ namespace RestaurantApp.ViewModels
 
                 if (IsAdding)
                 {
-                    // Adăugare alergen nou
                     int newId = await _dataService.AddAllergenAsync(NewAllergen);
                     NewAllergen.AllergenId = newId;
 
-                    // Adăugăm o copie în colecția locală
                     Allergens.Add(new Allergen
                     {
                         AllergenId = newId,
@@ -160,22 +158,18 @@ namespace RestaurantApp.ViewModels
                 }
                 else if (IsEditing && SelectedAllergen != null)
                 {
-                    // Actualizare alergen existent
                     await _dataService.UpdateAllergenAsync(NewAllergen);
 
-                    // Actualizăm datele în colecția locală
                     if (SelectedAllergen != null)
                     {
                         SelectedAllergen.Name = NewAllergen.Name;
                         SelectedAllergen.Description = NewAllergen.Description;
 
-                        // Forțăm actualizarea UI prin recrearea colecției
                         var tempList = Allergens.ToList();
                         Allergens = new ObservableCollection<Allergen>(tempList);
                     }
                 }
 
-                // Resetăm starea
                 IsAdding = false;
                 IsEditing = false;
                 NewAllergen = new Allergen();

@@ -20,7 +20,6 @@ namespace RestaurantApp.Data
 
             CreateStoredProcedures(context);
 
-            SeedInitialData(context);
         }
 
         private static void CreateStoredProcedures(RestaurantDbContext context)
@@ -368,51 +367,5 @@ namespace RestaurantApp.Data
             }
         }
 
-        private static void SeedInitialData(RestaurantDbContext context)
-        {
-            if (context.Categories.Any() || context.Products.Any()) return;
-
-            var categories = new List<Category>
-            {
-                new Category { Name = "Mic dejun", Description = "Preparate pentru micul dejun" },
-                new Category { Name = "Aperitive", Description = "Aperitive și gustări" },
-                new Category { Name = "Supe și ciorbe", Description = "Supe și ciorbe tradiționale" },
-                new Category { Name = "Deserturi", Description = "Deserturi și prăjituri" },
-                new Category { Name = "Băuturi", Description = "Băuturi răcoritoare și calde" }
-            };
-
-            context.Categories.AddRange(categories);
-            context.SaveChanges();
-
-            var allergens = new List<Allergen>
-            {
-                new Allergen { Name = "Gluten", Description = "Cereale care conțin gluten" },
-                new Allergen { Name = "Lactate", Description = "Produse lactate și derivate" },
-                new Allergen { Name = "Ou", Description = "Ouă și produse din ouă" },
-                new Allergen { Name = "Pește", Description = "Pește și produse din pește" },
-                new Allergen { Name = "Arahide", Description = "Arahide și produse derivate" },
-                new Allergen { Name = "Soia", Description = "Soia și produse derivate" },
-                new Allergen { Name = "Fructe cu coajă", Description = "Nuci, migdale, alune etc." },
-                new Allergen { Name = "Țelină", Description = "Țelină și produse derivate" }
-            };
-
-            context.Allergens.AddRange(allergens);
-            context.SaveChanges();
-
-            var adminRole = context.UserRoles.FirstOrDefault(r => r.Name == "Angajat");
-            var adminUser = new User
-            {
-                FirstName = "Admin",
-                LastName = "Admin",
-                Email = "admin@restaurant.com",
-                PhoneNumber = "0700000000",
-                DeliveryAddress = "Sediul principal",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"), 
-                RoleId = adminRole.RoleId
-            };
-
-            context.Users.Add(adminUser);
-            context.SaveChanges();
-        }
-    }
+    }      
 }

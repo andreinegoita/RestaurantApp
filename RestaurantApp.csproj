@@ -11,6 +11,27 @@
   <ItemGroup>
     <None Remove="Assets\3903248.jpg" />
     <None Remove="Assets\no-revisions-d1ngW7SNehM-unsplash.jpg" />
+    <None Remove="Images\Products\20190530_002543_HDR1.jpg" />
+    <None Remove="Images\Products\bruschete-cu-rosii-si-busuioc.jpg" />
+    <None Remove="Images\Products\Bruschette-Rosii-Busuioc-L.jpg" />
+    <None Remove="Images\Products\ciorba-de-burta-1724826927.jpg" />
+    <None Remove="Images\Products\Ciorba-radauteana.jpg" />
+    <None Remove="Images\Products\img.jpg" />
+    <None Remove="Images\Products\maxresdefault_0-scaled.jpg" />
+    <None Remove="Images\Products\pasta-de-peste-ton-reteta-rapida-pasta-de-ton-aperitiv-pasta-de-peste-cu-unt-si-maioneza.jpg" />
+    <None Remove="Images\Products\rulada-de-spanac-cu-branza.jpg" />
+    <None Remove="Images\Products\saaa-e1479314128808.jpg" />
+    <None Remove="Images\Products\Salata-de-boeuf-cu-maioneza-pentru-sarbatori.jpg" />
+    <None Remove="Images\Products\salata-de-varza-simpla.jpg" />
+    <None Remove="Images\Products\Supa-crema-de-ciuperci.jpg" />
+    <None Remove="Images\Products\supa-crema-de-dovleac-cu-seminte-1401.jpg" />
+    <None Remove="Images\Products\Z191-spenat-rolada-6-1.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Products\20190530_002543_HDR1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 
@@ -24,7 +45,49 @@
     <Content Include="Assets\tasty-pizza-near-ingredients.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Products\bruschete-cu-rosii-si-busuioc.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\Bruschette-Rosii-Busuioc-L.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\ciorba-de-burta-1724826927.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\Ciorba-radauteana.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\img.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\maxresdefault_0-scaled.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\pasta-de-peste-ton-reteta-rapida-pasta-de-ton-aperitiv-pasta-de-peste-cu-unt-si-maioneza.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\rulada-de-spanac-cu-branza.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\saaa-e1479314128808.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\Salata-de-boeuf-cu-maioneza-pentru-sarbatori.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\salata-de-varza-simpla.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\Supa-crema-de-ciuperci.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\supa-crema-de-dovleac-cu-seminte-1401.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\Products\tasty-pizza-near-ingredients.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Products\Z191-spenat-rolada-6-1.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
