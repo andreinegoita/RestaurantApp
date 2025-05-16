@@ -257,12 +257,12 @@
 
                                                     <!-- Add to Cart Button -->
                                                     <Button Grid.Row="4" 
-                                                            Content="Add to Cart" 
-                                                            Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
-                                                            CommandParameter="{Binding}" 
-                                                            Style="{StaticResource AddButtonStyle}"
-                                                            VerticalAlignment="Bottom"
-                                                            IsEnabled="{Binding IsAvailable}"/>
+        Content="Add to Cart" 
+        Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+        CommandParameter="{Binding}" 
+        Style="{StaticResource AddButtonStyle}"
+        VerticalAlignment="Bottom"
+        IsEnabled="{Binding IsAvailable}"/>
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>
@@ -356,10 +356,10 @@
 
                                                         <!-- Add to Cart Button -->
                                                         <Button Content="Add Menu to Cart" 
-                                                                Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
-                                                                CommandParameter="{Binding}" 
-                                                                Style="{StaticResource AddButtonStyle}"
-                                                                IsEnabled="{Binding IsAvailable}"/>
+        Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+        CommandParameter="{Binding}" 
+        Style="{StaticResource AddButtonStyle}"
+        IsEnabled="{Binding IsAvailable}"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </Border>
