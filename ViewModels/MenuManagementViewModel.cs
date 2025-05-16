@@ -268,6 +268,10 @@ namespace RestaurantApp.ViewModels
             SelectedMenuProducts = new ObservableCollection<MenuProduct>();
             IsAddingNew = true;
             IsEditing = true;
+            TotalPrice = 0;
+            DiscountedPrice = 0;
+            OnPropertyChanged(nameof(TotalPrice));
+            OnPropertyChanged(nameof(DiscountedPrice));
             CalculateTotalPrice();
             FilterProductsByCategory();
         }
@@ -324,6 +328,10 @@ namespace RestaurantApp.ViewModels
                     Description = ""
                 };
                 SelectedMenuProducts = new ObservableCollection<MenuProduct>();
+                TotalPrice = 0;
+                DiscountedPrice = 0;
+                OnPropertyChanged(nameof(TotalPrice));
+                OnPropertyChanged(nameof(DiscountedPrice));
             }
 
             CalculateTotalPrice();
