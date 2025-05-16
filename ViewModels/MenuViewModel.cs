@@ -145,7 +145,7 @@ namespace RestaurantApp.ViewModels
                     {
                         bool isMenuAvailable = menu.MenuProducts.All(mp => mp.Product.TotalQuantity > 0);
 
-                        decimal originalPrice = menu.MenuProducts.Sum(mp => mp.Product.Price * (mp.Quantity / mp.Product.PortionQuantity));
+                        decimal originalPrice = menu.MenuProducts.Sum(mp => mp.Product.Price);
                         decimal discountedPrice = originalPrice * (1 - (menuConfiguration.MenuDiscountPercentage / 100));
 
                         var menuVM = new MenuItemViewModel
