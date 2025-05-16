@@ -88,6 +88,7 @@ namespace RestaurantApp.ViewModels
                         }) ?? new List<MenuProduct>());
 
                     CalculateTotalPrice();
+                    FilterProductsByCategory();
                 }
             }
         }
@@ -238,18 +239,23 @@ namespace RestaurantApp.ViewModels
             if (SelectedCategory == null || Products == null)
                 return;
 
+            IEnumerable<Product> productsInCategory;
             if (SelectedCategory.CategoryId == 0)
             {
-                FilteredProducts = new ObservableCollection<Product>(Products);
+                productsInCategory = Products;
             }
             else
             {
-                var filteredProducts = Products
-                    .Where(p => p.CategoryId == SelectedCategory.CategoryId)
-                    .ToList();
-
-                FilteredProducts = new ObservableCollection<Product>(filteredProducts);
+                productsInCategory = Products.Where(p => p.CategoryId == SelectedCategory.CategoryId);
             }
+
+            if (SelectedMenuProducts != null && SelectedMenuProducts.Count > 0)
+            {
+                var selectedProductIds = SelectedMenuProducts.Select(mp => mp.ProductId).ToList();
+                productsInCategory = productsInCategory.Where(p => !selectedProductIds.Contains(p.ProductId));
+            }
+
+            FilteredProducts = new ObservableCollection<Product>(productsInCategory);
         }
 
         private void StartAddNewMenu()
@@ -263,6 +269,7 @@ namespace RestaurantApp.ViewModels
             IsAddingNew = true;
             IsEditing = true;
             CalculateTotalPrice();
+            FilterProductsByCategory();
         }
 
         private void StartEditMenu()
@@ -320,6 +327,7 @@ namespace RestaurantApp.ViewModels
             }
 
             CalculateTotalPrice();
+            FilterProductsByCategory();
         }
 
         private async Task SaveMenuAsync()
@@ -382,6 +390,7 @@ namespace RestaurantApp.ViewModels
                 SelectedMenu = null;
                 EditingMenu = new Menu();
                 SelectedMenuProducts = new ObservableCollection<MenuProduct>();
+                FilterProductsByCategory();
             }
             catch (Exception ex)
             {
@@ -413,6 +422,7 @@ namespace RestaurantApp.ViewModels
                     Product = product,
                     Quantity = 1
                 });
+                FilterProductsByCategory();
             }
 
             CalculateTotalPrice();
@@ -425,6 +435,7 @@ namespace RestaurantApp.ViewModels
 
             SelectedMenuProducts.Remove(menuProduct);
             CalculateTotalPrice();
+            FilterProductsByCategory();
         }
 
         private void CalculateTotalPrice()
