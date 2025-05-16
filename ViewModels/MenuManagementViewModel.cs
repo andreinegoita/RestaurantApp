@@ -18,6 +18,7 @@ namespace RestaurantApp.ViewModels
         private ObservableCollection<Menu> _menus;
         private ObservableCollection<Category> _categories;
         private ObservableCollection<Product> _products;
+        private ObservableCollection<Product> _filteredProducts;
         private ObservableCollection<MenuProduct> _selectedMenuProducts;
 
         private Menu _selectedMenu;
@@ -47,6 +48,12 @@ namespace RestaurantApp.ViewModels
         {
             get => _products;
             set => SetProperty(ref _products, value);
+        }
+
+        public ObservableCollection<Product> FilteredProducts
+        {
+            get => _filteredProducts;
+            set => SetProperty(ref _filteredProducts, value);
         }
 
         public ObservableCollection<MenuProduct> SelectedMenuProducts
@@ -105,7 +112,13 @@ namespace RestaurantApp.ViewModels
         public Category SelectedCategory
         {
             get => _selectedCategory;
-            set => SetProperty(ref _selectedCategory, value);
+            set
+            {
+                if (SetProperty(ref _selectedCategory, value))
+                {
+                    FilterProductsByCategory();
+                }
+            }
         }
 
         public Product SelectedProduct
@@ -167,6 +180,7 @@ namespace RestaurantApp.ViewModels
             Menus = new ObservableCollection<Menu>();
             Categories = new ObservableCollection<Category>();
             Products = new ObservableCollection<Product>();
+            FilteredProducts = new ObservableCollection<Product>();
             SelectedMenuProducts = new ObservableCollection<MenuProduct>();
 
             EditingMenu = new Menu();
@@ -197,6 +211,17 @@ namespace RestaurantApp.ViewModels
                 Menus = new ObservableCollection<Menu>(menus);
                 Categories = new ObservableCollection<Category>(categories);
                 Products = new ObservableCollection<Product>(products);
+
+                var allCategory = new Category
+                {
+                    CategoryId = 0,
+                    Name = "Toate produsele"
+                };
+                Categories.Insert(0, allCategory);
+
+                FilteredProducts = new ObservableCollection<Product>(products);
+
+                SelectedCategory = allCategory;
             }
             catch (Exception ex)
             {
@@ -205,6 +230,25 @@ namespace RestaurantApp.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        private void FilterProductsByCategory()
+        {
+            if (SelectedCategory == null || Products == null)
+                return;
+
+            if (SelectedCategory.CategoryId == 0)
+            {
+                FilteredProducts = new ObservableCollection<Product>(Products);
+            }
+            else
+            {
+                var filteredProducts = Products
+                    .Where(p => p.CategoryId == SelectedCategory.CategoryId)
+                    .ToList();
+
+                FilteredProducts = new ObservableCollection<Product>(filteredProducts);
             }
         }
 
