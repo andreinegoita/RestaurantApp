@@ -54,6 +54,7 @@ public partial class App : Application
         services.AddTransient<ProductManagementViewModel>();
         services.AddTransient<MenuManagementViewModel>();
         services.AddTransient<AllergenManagementViewModel>();
+        services.AddTransient<OrderDetailsViewModel>();
         services.AddSingleton<MainWindowViewModel>();
 
 

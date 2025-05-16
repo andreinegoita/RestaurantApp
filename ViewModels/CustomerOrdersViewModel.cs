@@ -164,7 +164,8 @@ namespace RestaurantApp.ViewModels
         public int OrderId { get; }
         public string OrderCode { get; }
         public DateTime OrderDate { get; }
-        public DateTime EstimatedDeliveryTime { get; }
+        public DateTime EstimatedDeliveryTime { get; set;
+        }
         public string StatusName { get; }
         public decimal SubTotal { get; }
         public decimal DeliveryFee { get; }
