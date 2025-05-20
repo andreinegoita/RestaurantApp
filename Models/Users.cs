@@ -45,6 +45,7 @@ namespace RestaurantApp.Models
 
         public virtual ICollection<Order> Orders { get; set; }
 
+       
         public User()
         {
             Orders = new HashSet<Order>();

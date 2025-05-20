@@ -3,8 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RestaurantApp.Views"
+             xmlns:converters="clr-namespace:RestaurantApp.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
+
+    <UserControl.Resources>
+        <converters:FullNameConverter x:Key="FullNameConverter"/>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -108,7 +114,15 @@
                                     <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" Width="70"/>
                                     <DataGridTextColumn Header="Order Code" Binding="{Binding OrderCode}" Width="120"/>
                                     <DataGridTextColumn Header="Date" Binding="{Binding OrderDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Width="150"/>
-                                    <DataGridTextColumn Header="Customer" Binding="{Binding User.FullName}" Width="150"/>
+                                    <DataGridTextColumn Header="Customer">
+                                        <DataGridTextColumn.Binding>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="User.FirstName"/>
+                                                <Binding Path="User.LastName"/>
+                                            </MultiBinding>
+                                        </DataGridTextColumn.Binding>
+                                        <DataGridTextColumn.Width>150</DataGridTextColumn.Width>
+                                    </DataGridTextColumn>
                                     <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}" Width="100"/>
                                     <DataGridTextColumn Header="Delivery Time" Binding="{Binding EstimatedDeliveryTime, StringFormat={}{0:HH:mm}}" Width="100"/>
                                     <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:C}}" Width="100"/>
@@ -123,7 +137,15 @@
                                     </Grid.ColumnDefinitions>
 
                                     <StackPanel Grid.Column="0">
-                                        <TextBlock Text="{Binding SelectedOrder.User.FullName, StringFormat=Customer: {0}}" FontWeight="Bold"/>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="Customer: {0} {1}">
+                                                    <Binding Path="SelectedOrder.User.FirstName"/>
+                                                    <Binding Path="SelectedOrder.User.LastName"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                            <TextBlock.FontWeight>Bold</TextBlock.FontWeight>
+                                        </TextBlock>
                                         <TextBlock Text="{Binding SelectedOrder.User.PhoneNumber, StringFormat=Phone: {0}}"/>
                                         <TextBlock Text="{Binding SelectedOrder.User.DeliveryAddress, StringFormat=Address: {0}}"/>
                                     </StackPanel>
@@ -166,7 +188,15 @@
                                     <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" Width="70"/>
                                     <DataGridTextColumn Header="Order Code" Binding="{Binding OrderCode}" Width="120"/>
                                     <DataGridTextColumn Header="Date" Binding="{Binding OrderDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Width="150"/>
-                                    <DataGridTextColumn Header="Customer" Binding="{Binding User.FullName}" Width="150"/>
+                                    <DataGridTextColumn Header="Customer">
+                                        <DataGridTextColumn.Binding>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="User.FirstName"/>
+                                                <Binding Path="User.LastName"/>
+                                            </MultiBinding>
+                                        </DataGridTextColumn.Binding>
+                                        <DataGridTextColumn.Width>150</DataGridTextColumn.Width>
+                                    </DataGridTextColumn>
                                     <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}" Width="100"/>
                                     <DataGridTextColumn Header="Delivery Time" Binding="{Binding EstimatedDeliveryTime, StringFormat={}{0:HH:mm}}" Width="100"/>
                                     <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:C}}" Width="100"/>
