@@ -125,7 +125,7 @@
                                     </DataGridTextColumn>
                                     <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}" Width="100"/>
                                     <DataGridTextColumn Header="Delivery Time" Binding="{Binding EstimatedDeliveryTime, StringFormat={}{0:HH:mm}}" Width="100"/>
-                                    <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:C}}" Width="100"/>
+                                    <DataGridTextColumn Header="Total" Binding="{Binding TotalPrice, StringFormat={}{0:C}}" Width="100"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
@@ -199,7 +199,7 @@
                                     </DataGridTextColumn>
                                     <DataGridTextColumn Header="Status" Binding="{Binding Status.Name}" Width="100"/>
                                     <DataGridTextColumn Header="Delivery Time" Binding="{Binding EstimatedDeliveryTime, StringFormat={}{0:HH:mm}}" Width="100"/>
-                                    <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:C}}" Width="100"/>
+                                    <DataGridTextColumn Header="Total" Binding="{Binding TotalPrice, StringFormat={}{0:C}}" Width="100"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
