@@ -118,8 +118,28 @@
             <Setter Property="Margin" Value="0,20"/>
         </Style>
 
+        <Style x:Key="UnavailableBannerStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FFCCCC"/>
+            <Setter Property="CornerRadius" Value="0,0,5,5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="UnavailableTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#D32F2F"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
         <converters:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
         <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanConverter"/>
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <converters:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -129,7 +149,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Top Bar with Back Button -->
         <Grid Grid.Row="0" Margin="10">
             <Button Content="← Back" 
                     Command="{Binding BackCommand}" 
@@ -139,7 +158,6 @@
                     BorderBrush="#E0E0E0"/>
         </Grid>
 
-        <!-- Search Bar -->
         <Grid Grid.Row="1" Margin="10,0,10,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -179,17 +197,14 @@
             </StackPanel>
         </Grid>
 
-        <!-- Content Area -->
         <Grid Grid.Row="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <ItemsControl ItemsSource="{Binding Categories}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <!-- Category Header -->
                                 <TextBlock Text="{Binding Name}" Style="{StaticResource CategoryHeaderStyle}"/>
 
-                                <!-- Products Section -->
                                 <TextBlock Text="Products" 
                                            FontSize="18" 
                                            FontWeight="Medium" 
@@ -214,20 +229,27 @@
                                                         <RowDefinition Height="*"/>
                                                     </Grid.RowDefinitions>
 
-                                                    <!-- Product Image -->
                                                     <Border Grid.Row="0" Background="#F5F5F5" CornerRadius="5">
-                                                        <Image Source="{Binding Images[0], TargetNullValue='/Assets/placeholder.png'}" 
-                                                               Stretch="Uniform" 
-                                                               MaxHeight="120" 
-                                                               Margin="5"/>
+                                                        <Grid>
+                                                            <Image Source="{Binding Images[0], TargetNullValue='/Assets/placeholder.png'}" 
+                                                                   Stretch="Uniform" 
+                                                                   MaxHeight="120" 
+                                                                   Margin="5"/>
+
+                                                            <Border Style="{StaticResource UnavailableBannerStyle}"
+                                                                    Visibility="{Binding IsAvailable, Converter={StaticResource InverseBooleanConverter}}"
+                                                                    Width="120"
+                                                                    VerticalAlignment="Bottom">
+                                                                <TextBlock Text="Out of stock" 
+                                                                           Style="{StaticResource UnavailableTextStyle}"/>
+                                                            </Border>
+                                                        </Grid>
                                                     </Border>
 
-                                                    <!-- Product Name -->
                                                     <TextBlock Grid.Row="1" 
                                                                Text="{Binding Name}" 
                                                                Style="{StaticResource ProductNameStyle}"/>
 
-                                                    <!-- Product Price -->
                                                     <StackPanel Grid.Row="2" Orientation="Horizontal">
                                                         <TextBlock Text="{Binding Price, StringFormat={}{0:C}}" 
                                                                    Style="{StaticResource PriceStyle}"/>
@@ -237,7 +259,6 @@
                                                                    Margin="3,0,0,0"/>
                                                     </StackPanel>
 
-                                                    <!-- Allergens -->
                                                     <ItemsControl Grid.Row="3" 
                                                                   ItemsSource="{Binding Allergens}" 
                                                                   Margin="0,5">
@@ -255,21 +276,19 @@
                                                         </ItemsControl.ItemTemplate>
                                                     </ItemsControl>
 
-                                                    <!-- Add to Cart Button -->
                                                     <Button Grid.Row="4" 
-        Content="Add to Cart" 
-        Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-        CommandParameter="{Binding}" 
-        Style="{StaticResource AddButtonStyle}"
-        VerticalAlignment="Bottom"
-        IsEnabled="{Binding IsAvailable}"/>
+                                                            Content="{Binding IsAvailable, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Add to Cart|Out of Stock'}" 
+                                                            Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                            CommandParameter="{Binding}" 
+                                                            Style="{StaticResource AddButtonStyle}"
+                                                            VerticalAlignment="Bottom"
+                                                            IsEnabled="{Binding IsAvailable}"/>
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
 
-                                <!-- Menus Section -->
                                 <TextBlock Text="Set Menus" 
                                            FontSize="18" 
                                            FontWeight="Medium" 
@@ -294,13 +313,21 @@
                                                         <RowDefinition Height="Auto"/>
                                                     </Grid.RowDefinitions>
 
-                                                    <!-- Menu Name -->
+                                                    <Border Style="{StaticResource UnavailableBannerStyle}"
+                                                            Visibility="{Binding IsAvailable, Converter={StaticResource InverseBooleanConverter}}"
+                                                            VerticalAlignment="Top"
+                                                            HorizontalAlignment="Center"
+                                                            Width="150"
+                                                            Margin="0,5,0,0">
+                                                        <TextBlock Text="Menu non disponible" 
+                                                                   Style="{StaticResource UnavailableTextStyle}"/>
+                                                    </Border>
+
                                                     <TextBlock Grid.Row="0" 
                                                                Text="{Binding Name}" 
                                                                Style="{StaticResource ProductNameStyle}"
                                                                FontSize="18"/>
 
-                                                    <!-- Menu Price -->
                                                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                                                         <TextBlock Text="{Binding Price, StringFormat={}{0:C}}" 
                                                                    Style="{StaticResource PriceStyle}"/>
@@ -308,7 +335,6 @@
                                                                    Style="{StaticResource StrikethroughPrice}"/>
                                                     </StackPanel>
 
-                                                    <!-- Menu Items -->
                                                     <TextBlock Grid.Row="2" 
                                                                Text="Includes:" 
                                                                FontWeight="Medium" 
@@ -332,7 +358,6 @@
                                                         </ItemsControl.ItemTemplate>
                                                     </ItemsControl>
 
-                                                    <!-- Allergens -->
                                                     <StackPanel Grid.Row="4">
                                                         <TextBlock Text="Allergens:" 
                                                                    FontWeight="Medium" 
@@ -354,12 +379,11 @@
                                                             </ItemsControl.ItemTemplate>
                                                         </ItemsControl>
 
-                                                        <!-- Add to Cart Button -->
-                                                        <Button Content="Add Menu to Cart" 
-        Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-        CommandParameter="{Binding}" 
-        Style="{StaticResource AddButtonStyle}"
-        IsEnabled="{Binding IsAvailable}"/>
+                                                        <Button Content="{Binding IsAvailable, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Add Menu to Cart|Menu Unavailable'}" 
+                                                                Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                                CommandParameter="{Binding}" 
+                                                                Style="{StaticResource AddButtonStyle}"
+                                                                IsEnabled="{Binding IsAvailable}"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </Border>
@@ -372,7 +396,6 @@
                 </ItemsControl>
             </ScrollViewer>
 
-            <!-- Loading Indicator -->
             <Grid Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" 
                   Background="#80FFFFFF">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -386,7 +409,6 @@
                 </StackPanel>
             </Grid>
 
-            <!-- Error Message -->
             <TextBlock Text="{Binding ErrorMessage}" 
                        Foreground="Red" 
                        FontSize="16" 
@@ -396,7 +418,6 @@
                        TextWrapping="Wrap"
                        Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
 
-            <!-- No Results Message -->
             <TextBlock Text="No menu items found. Try adjusting your search criteria." 
                        Style="{StaticResource NoItemsMessageStyle}"
                        Visibility="{Binding Categories.Count, Converter={StaticResource ZeroToVisibilityConverter}}"/>

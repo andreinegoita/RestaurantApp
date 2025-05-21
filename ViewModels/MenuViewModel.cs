@@ -133,7 +133,7 @@ namespace RestaurantApp.ViewModels
                             PortionQuantity = product.PortionQuantity,
                             Unit = product.Unit,
                             TotalQuantity = product.TotalQuantity,
-                            IsAvailable = product.TotalQuantity > 0,
+                            IsAvailable = product.TotalQuantity >= (decimal)menuConfiguration.LowStockThreshold,
                             CategoryName = category.Name,
                             Images = new ObservableCollection<string>(product.ProductImages?.Select(pi => pi.ImageUrl) ?? new List<string>()),
                             Allergens = new ObservableCollection<string>(product.ProductAllergens?.Select(pa => pa.Allergen.Name) ?? new List<string>())
@@ -143,7 +143,7 @@ namespace RestaurantApp.ViewModels
                     var categoryMenus = menus.Where(m => m.CategoryId == category.CategoryId).ToList();
                     foreach (var menu in categoryMenus)
                     {
-                        bool isMenuAvailable = menu.MenuProducts.All(mp => mp.Product.TotalQuantity > 0);
+                        bool isMenuAvailable = menu.MenuProducts.All(mp => mp.Product.TotalQuantity > (decimal)menuConfiguration.LowStockThreshold);
 
                         decimal originalPrice = menu.MenuProducts.Sum(mp => mp.Product.Price);
                         decimal discountedPrice = originalPrice * (1 - (menuConfiguration.MenuDiscountPercentage / 100));
@@ -239,7 +239,7 @@ namespace RestaurantApp.ViewModels
                         PortionQuantity = product.PortionQuantity,
                         Unit = product.Unit,
                         TotalQuantity = product.TotalQuantity,
-                        IsAvailable = product.TotalQuantity > 0,
+                        IsAvailable = product.TotalQuantity >(decimal)_dataService.GetConfiguration().LowStockThreshold,
                         CategoryName = product.Category.Name,
                         Images = new ObservableCollection<string>(product.ProductImages?.Select(pi => pi.ImageUrl) ?? new List<string>()),
                         Allergens = new ObservableCollection<string>(product.ProductAllergens?.Select(pa => pa.Allergen.Name) ?? new List<string>())
