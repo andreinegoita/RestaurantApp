@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RestaurantApp.ViewModels
@@ -79,7 +80,7 @@ namespace RestaurantApp.ViewModels
             ViewAllOrdersCommand = new AsyncRelayCommand(LoadAllOrdersAsync);
             ViewActiveOrdersCommand = new AsyncRelayCommand(LoadActiveOrdersAsync);
             ViewLowStockCommand = new AsyncRelayCommand(LoadLowStockProductsAsync);
-            UpdateOrderStatusCommand = new AsyncRelayCommand<int>(UpdateOrderStatusAsync);
+            UpdateOrderStatusCommand = new AsyncRelayCommand<object>(UpdateOrderStatusAsync);
 
             Task.Run(() => LoadDataAsync());
         }
@@ -89,22 +90,47 @@ namespace RestaurantApp.ViewModels
             IsLoading = true;
             try
             {
-                await Task.WhenAll(
-                    LoadAllOrdersAsync(),
-                    LoadActiveOrdersAsync(),
-                    LoadLowStockProductsAsync()
-                );
+                try
+                {
+                    await LoadAllOrdersAsync();
+                    System.Diagnostics.Debug.WriteLine($"All orders loaded: {AllOrders.Count}");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error loading all orders: {ex.Message}");
+                }
+
+                try
+                {
+                    await LoadActiveOrdersAsync();
+                    System.Diagnostics.Debug.WriteLine($"Active orders loaded: {ActiveOrders.Count}");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error loading active orders: {ex.Message}");
+                }
+
+                try
+                {
+                    await LoadLowStockProductsAsync();
+                    System.Diagnostics.Debug.WriteLine($"Low stock products loaded: {LowStockProducts.Count}");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error loading low stock products: {ex.Message}");
+                }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading data: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"General error loading data: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
             }
             finally
             {
                 IsLoading = false;
+                System.Diagnostics.Debug.WriteLine("Finished loading dashboard data");
             }
         }
-
         private async Task LoadAllOrdersAsync()
         {
             var orders = await _dataService.GetAllOrdersAsync();
@@ -123,18 +149,54 @@ namespace RestaurantApp.ViewModels
             LowStockProducts = new ObservableCollection<Product>(products);
         }
 
-        private async Task UpdateOrderStatusAsync(int statusId)
+        private async Task UpdateOrderStatusAsync(object statusIdObj)
         {
             if (SelectedOrder == null)
+                return;
+
+            // Convertim obiectul la int
+            if (!int.TryParse(statusIdObj?.ToString(), out int statusId))
                 return;
 
             try
             {
                 IsLoading = true;
-                await _dataService.UpdateOrderStatusAsync(SelectedOrder.OrderId, statusId);
 
-                await LoadActiveOrdersAsync();
-                await LoadAllOrdersAsync();
+                // Păstrăm o referință la comanda curentă selectată și ID-ul ei
+                int selectedOrderId = SelectedOrder.OrderId;
+
+                // Actualizăm statusul în baza de date
+                await _dataService.UpdateOrderStatusAsync(selectedOrderId, statusId);
+
+                // În loc să reîncărcăm complet colecțiile și să creăm noi ObservableCollection,
+                // vom actualiza listele existente folosind metoda Clear și apoi Add
+
+                // Obținem datele actualizate
+                var activeOrders = await _dataService.GetActiveOrdersAsync();
+                var allOrders = await _dataService.GetAllOrdersAsync();
+
+                // Actualizăm ActiveOrders păstrând aceeași instanță a colecției
+                ActiveOrders.Clear();
+                foreach (var order in activeOrders)
+                {
+                    ActiveOrders.Add(order);
+                }
+
+                // Actualizăm AllOrders păstrând aceeași instanță a colecției
+                AllOrders.Clear();
+                foreach (var order in allOrders)
+                {
+                    AllOrders.Add(order);
+                }
+
+                // Reidentificăm comanda selectată
+                SelectedOrder = ActiveOrders.FirstOrDefault(o => o.OrderId == selectedOrderId);
+
+                // Dacă nu mai este în lista de comenzi active, o căutăm în toate comenzile
+                if (SelectedOrder == null)
+                {
+                    SelectedOrder = AllOrders.FirstOrDefault(o => o.OrderId == selectedOrderId);
+                }
             }
             catch (Exception ex)
             {
