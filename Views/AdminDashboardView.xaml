@@ -221,7 +221,6 @@
                                       GridLinesVisibility="Horizontal"
                                       AlternatingRowBackground="#FFF5F5F5">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Product ID" Binding="{Binding ProductId}" Width="80"/>
                                     <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="250"/>
                                     <DataGridTextColumn Header="Available Quantity" Binding="{Binding TotalQuantity}" Width="150"/>
                                     <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="80"/>

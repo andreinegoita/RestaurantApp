@@ -60,10 +60,6 @@
         <Grid Grid.Row="1">
             <Grid >
                 <Rectangle Fill="#80000000"/>
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <ProgressBar IsIndeterminate="True" Width="100" Height="10" Margin="0,0,0,15"/>
-                    <TextBlock Text="Loading..." Foreground="White" FontSize="16"/>
-                </StackPanel>
             </Grid>
 
             <ContentControl Content="{Binding CurrentView}"/>

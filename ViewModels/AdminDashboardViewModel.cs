@@ -149,54 +149,34 @@ namespace RestaurantApp.ViewModels
             LowStockProducts = new ObservableCollection<Product>(products);
         }
 
-        private async Task UpdateOrderStatusAsync(object statusIdObj)
+        private async Task UpdateOrderStatusAsync(object parameter)
         {
             if (SelectedOrder == null)
                 return;
 
-            // Convertim obiectul la int
-            if (!int.TryParse(statusIdObj?.ToString(), out int statusId))
-                return;
+            int statusId;
 
             try
             {
+                if (parameter is int i)
+                {
+                    statusId = i;
+                }
+                else if (parameter is string s && int.TryParse(s, out var parsed))
+                {
+                    statusId = parsed;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Invalid parameter for UpdateOrderStatusCommand");
+                    return;
+                }
+
                 IsLoading = true;
+                await _dataService.UpdateOrderStatusAsync(SelectedOrder.OrderId, statusId);
+                await LoadActiveOrdersAsync();
+                await LoadAllOrdersAsync();
 
-                // Păstrăm o referință la comanda curentă selectată și ID-ul ei
-                int selectedOrderId = SelectedOrder.OrderId;
-
-                // Actualizăm statusul în baza de date
-                await _dataService.UpdateOrderStatusAsync(selectedOrderId, statusId);
-
-                // În loc să reîncărcăm complet colecțiile și să creăm noi ObservableCollection,
-                // vom actualiza listele existente folosind metoda Clear și apoi Add
-
-                // Obținem datele actualizate
-                var activeOrders = await _dataService.GetActiveOrdersAsync();
-                var allOrders = await _dataService.GetAllOrdersAsync();
-
-                // Actualizăm ActiveOrders păstrând aceeași instanță a colecției
-                ActiveOrders.Clear();
-                foreach (var order in activeOrders)
-                {
-                    ActiveOrders.Add(order);
-                }
-
-                // Actualizăm AllOrders păstrând aceeași instanță a colecției
-                AllOrders.Clear();
-                foreach (var order in allOrders)
-                {
-                    AllOrders.Add(order);
-                }
-
-                // Reidentificăm comanda selectată
-                SelectedOrder = ActiveOrders.FirstOrDefault(o => o.OrderId == selectedOrderId);
-
-                // Dacă nu mai este în lista de comenzi active, o căutăm în toate comenzile
-                if (SelectedOrder == null)
-                {
-                    SelectedOrder = AllOrders.FirstOrDefault(o => o.OrderId == selectedOrderId);
-                }
             }
             catch (Exception ex)
             {
